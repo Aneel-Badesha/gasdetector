@@ -1,0 +1,27 @@
+# Compiled executables
+main
+test_hardware
+
+# Object files
+*.o
+
+# Editor backup files
+*~
+*.swp
+*.swo
+.*.swp
+.*.swo
+
+# IDE files
+.vscode/
+.idea/
+*.code-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Debug files
+*.log
+core
+vgcore.*

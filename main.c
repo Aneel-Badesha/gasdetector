@@ -7,8 +7,9 @@
 
 int main(void)
 {
-    system("config-pin P9_17 i2c");
-    system("config-pin P9_18 i2c");
+    // Raspberry Pi 5 I2C is available by default on GPIO2 (SDA) and GPIO3 (SCL)
+    // Ensure I2C is enabled: sudo raspi-config -> Interface Options -> I2C -> Enable
+    // No pin configuration needed like BeagleBone
 
     struct thread_data thread_data;
     thread_data.end_all_threads = false;

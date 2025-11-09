@@ -4,7 +4,11 @@
 #define USER_H_
 
 #include "common.h"
-#define USERBUTTON "/sys/class/gpio/gpio72/value"
+// Raspberry Pi 5: GPIO17 is a common button pin
+// Change this based on your actual GPIO pin connection
+// For GPIO17, the path would be /sys/class/gpio/gpio17/value
+// You need to export the GPIO first: echo 17 > /sys/class/gpio/export
+#define USERBUTTON "/sys/class/gpio/gpio17/value"
 
 // Function to get value of USER button
 int UserButtonValue();
