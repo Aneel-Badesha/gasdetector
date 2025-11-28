@@ -1,4 +1,4 @@
-# Advanced Fire and Gas Detector
+# Multi Purpose Fire and Gas Detector
 
 An embedded fire and gas detection system built with C programming language on Debian Linux and cross-compiled for deployment on BeagleBone Green hardware. This system provides real-time monitoring and alerting capabilities for fire and gas hazards.
 
