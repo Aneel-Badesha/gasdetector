@@ -174,7 +174,6 @@ void *readAirSensors(void *arg)
 {
     struct thread_data *data = arg;
     bool end_thread = false;
-    int raw_data_CO, raw_data_CO2, raw_data_smoke;
 
     while(1) {
         pthread_mutex_lock(&data->mutexControl);
@@ -184,9 +183,9 @@ void *readAirSensors(void *arg)
         pthread_mutex_unlock(&data->mutexControl);
 
         if(end_thread == false) {
-            raw_data_CO = getVoltage1Reading(A2D_FILE_VOLTAGE5);
-            raw_data_CO2 = getVoltage1Reading(A2D_FILE_VOLTAGE2);
-            raw_data_smoke = getVoltage1Reading(A2D_FILE_VOLTAGE3);
+            int raw_data_CO = getVoltage1Reading(A2D_FILE_VOLTAGE5);
+            int raw_data_CO2 = getVoltage1Reading(A2D_FILE_VOLTAGE2);
+            int raw_data_smoke = getVoltage1Reading(A2D_FILE_VOLTAGE3);
 
             pthread_mutex_lock(&data->mutexAir);
             {
