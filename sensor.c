@@ -25,6 +25,7 @@ int getVoltage1Reading(char* value)
         printf("ERROR: Unable to read values from voltage input file.\n");
         exit(-1);
     }
+    
     // Close file
     fclose(f);
     return a2dReading;
