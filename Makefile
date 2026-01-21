@@ -2,7 +2,7 @@ all: main
 	cp main $(HOME)/cmpt433/public/myApps/main
 
 main: main.o sensor.o common.o output.o user.o
-	arm-linux-gnueabihf-gcc -D _POSIX_C_SOURCE=200809L -pthread -Wall -O2 -std=c17 -Wall -Werror -Wvla -Wextra -o main sensor.o common.o user.o output.o main.o  -lm
+	arm-linux-gnueabihf-gcc -D _POSIX_C_SOURCE=200809L -Wall -O2 -std=c17 -Wall -Werror -Wvla -Wextra -pthread -o main sensor.o common.o user.o output.o main.o  -lm
 
 user.o: user.c user.h common.h
 	arm-linux-gnueabihf-gcc -D _POSIX_C_SOURCE=200809L -Wall -O2 -std=c17 -Wall -Werror -Wvla -Wextra -c user.c
