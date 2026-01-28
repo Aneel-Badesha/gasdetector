@@ -10,12 +10,7 @@ bool thresholdHigh(double value, double tpoint) {
 }
 
 bool thresholdLow(double value, double tpoint) {
-    if(value < tpoint) {
-        return true;
-    }   
-    else  {
-        return false;
-    }
+    return value < tpoint;
 }
 
 void *displayOutput(void *arg)
