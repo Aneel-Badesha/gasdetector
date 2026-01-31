@@ -1,12 +1,7 @@
 #include "output.h"
 
 bool thresholdHigh(double value, double tpoint) {
-    if(value > tpoint) {
-        return true;
-    }   
-    else {
-        return false;
-    }
+    return value > tpoint;
 }
 
 bool thresholdLow(double value, double tpoint) {
