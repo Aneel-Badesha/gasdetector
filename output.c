@@ -90,6 +90,7 @@ void *calculateStatus(void *arg)
 
         if(end_thread == false) {
         if(initialization == false) {
+            
             // Interpret IR readings
             int ir_count = 0;
             int ir_sum = 0;
