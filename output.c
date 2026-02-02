@@ -39,7 +39,7 @@ void *displayOutput(void *arg)
             alarm_state = data->general_alarm;
             obstructed = data->obstructed_alarm;
         }
-        pthread_mutex_lock(&data->mutexAlarm);
+        pthread_mutex_unlock(&data->mutexAlarm);
 
         if(end_thread == false) {
         if(initialization == true) {
@@ -124,43 +124,60 @@ void *calculateStatus(void *arg)
                 else {
                     data->alarm_IR = false;
                 }
+            }
+            pthread_mutex_unlock(&data->mutexIR);
+            pthread_mutex_unlock(&data->mutexAlarm);
 
+            // Read temperature separately to avoid nested locks
+            double temp_val;
+            pthread_mutex_lock(&data->mutexTemp);
+            {
+                temp_val = data->temp_value;
+            }
+            pthread_mutex_unlock(&data->mutexTemp);
+
+            // Read air sensor values separately
+            double co_val, co2_val, smoke_val;
+            pthread_mutex_lock(&data->mutexAir);
+            {
+                co_val = data->CO_value;
+                co2_val = data->CO2_value;
+                smoke_val = data->smoke_value;
+            }
+            pthread_mutex_unlock(&data->mutexAir);
+
+            // Now update alarm states with single lock
+            pthread_mutex_lock(&data->mutexAlarm);
+            {
                 // Temperature
-                pthread_mutex_lock(&data->mutexTemp);
-                if(thresholdLow(data->temp_value, TEMPPOINT) == true) {
+                if(thresholdLow(temp_val, TEMPPOINT) == true) {
                     data->alarm_temp = true;
                 }
                 else {
                     data->alarm_temp = false;
                 }
-                pthread_mutex_unlock(&data->mutexTemp);
 
                 // Air quality sensors
-                pthread_mutex_lock(&data->mutexAir);
-                {
-                    if(thresholdHigh(data->CO_value, COPOINT) == true) {
-                        data->alarm_CO = true;
-                    }
-                    else {
-                        data->alarm_CO = false;
-                    }
-
-                    if(thresholdHigh(data->CO2_value, CO2POINT) == true) {
-                        data->alarm_CO2 = true;
-                    }
-                    else {
-                        data->alarm_CO2 = false;
-                    }
-
-                    if(thresholdLow(data->smoke_value, SMOKEPOINT) == true) {
-                        data->alarm_smoke = true;
-                    }
-                    else {
-                        data->alarm_smoke = false;
-                    }
+                if(thresholdHigh(co_val, COPOINT) == true) {
+                    data->alarm_CO = true;
                 }
-                pthread_mutex_unlock(&data->mutexAir);
-            
+                else {
+                    data->alarm_CO = false;
+                }
+
+                if(thresholdHigh(co2_val, CO2POINT) == true) {
+                    data->alarm_CO2 = true;
+                }
+                else {
+                    data->alarm_CO2 = false;
+                }
+
+                if(thresholdLow(smoke_val, SMOKEPOINT) == true) {
+                    data->alarm_smoke = true;
+                }
+                else {
+                    data->alarm_smoke = false;
+                }
             }
             pthread_mutex_unlock(&data->mutexAlarm);
 

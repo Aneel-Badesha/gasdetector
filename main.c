@@ -13,6 +13,13 @@ int main(void)
     struct thread_data thread_data;
     thread_data.end_all_threads = false;
 
+    // Initialize all mutexes
+    pthread_mutex_init(&thread_data.mutexControl, NULL);
+    pthread_mutex_init(&thread_data.mutexTemp, NULL);
+    pthread_mutex_init(&thread_data.mutexIR, NULL);
+    pthread_mutex_init(&thread_data.mutexAir, NULL);
+    pthread_mutex_init(&thread_data.mutexAlarm, NULL);
+
     // Start threads
     pthread_create(&thread_data.id_user, NULL, exitProgram, &thread_data);
     pthread_create(&thread_data.id_temp, NULL, readTemperature, &thread_data);
@@ -42,6 +49,13 @@ int main(void)
     }
 
     printf("Exiting Program!\n");
+
+    // Destroy all mutexes
+    pthread_mutex_destroy(&thread_data.mutexControl);
+    pthread_mutex_destroy(&thread_data.mutexTemp);
+    pthread_mutex_destroy(&thread_data.mutexIR);
+    pthread_mutex_destroy(&thread_data.mutexAir);
+    pthread_mutex_destroy(&thread_data.mutexAlarm);
 
     return 0;
 }
