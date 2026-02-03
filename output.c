@@ -170,16 +170,16 @@ void *calculateStatus(void *arg)
 void *calcAlarm(void *arg)
 {   
     struct thread_data *data = arg;
-    bool end_thread = false;
-    bool initialization = true;
-
-    bool temp_trigger, ir_trigger, smoke_trigger, CO_trigger, CO2_trigger;
     int alarm_count = 0;
 
+    bool end_thread = false;
+    bool initialization = true;
     bool alarm_state = false;
     bool warning_state = false;
     bool obstructed = false;
 
+    bool temp_trigger, ir_trigger, smoke_trigger, CO_trigger, CO2_trigger;
+    
     while(1) {
         pthread_mutex_lock(&data->mutexControl);
         {
