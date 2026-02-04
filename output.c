@@ -235,20 +235,20 @@ void *calcAlarm(void *arg)
 
                 if(CO_trigger == true) {
                     alarm_count++;
-                    //printf("CO TRIGGER\n");
                     alarm_state = true;
+                    //printf("CO TRIGGER\n");
                 }
                 if(temp_trigger == true) {
                     alarm_count++;
                     //printf("temp TRIGGER\n");
                 }
                 if(CO2_trigger == true) {
-                    //printf("CO2 TRIGGER\n");
                     alarm_count++;
+                    //printf("CO2 TRIGGER\n");
                 }
                 if(smoke_trigger == true) {
-                    //printf("SMOKE TRIGGER\n");
                     alarm_count++;
+                    //printf("SMOKE TRIGGER\n");
                 }
 
                 // Obstructed case
@@ -263,9 +263,8 @@ void *calcAlarm(void *arg)
                 if((alarm_count >= 2) && (obstructed == false)) {
                     alarm_state = true;
                 }
-                else
-                // Warning case
-                if((alarm_count == 1) && (alarm_state == false)) {
+                // Warning Case
+                else if((alarm_count == 1) && (alarm_state == false)) {
                     warning_state = true;
                 }
                 else {
