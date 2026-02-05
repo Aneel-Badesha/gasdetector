@@ -1,20 +1,20 @@
 #include "output.h"
 
 bool thresholdHigh(double value, double tpoint) {
-    if( value > tpoint) {
-        return false;
+    if(value > tpoint) {
+        return true;
     }   
     else {
-            return true;
-        }
+        return false;
+    }
 }
 
 bool thresholdLow(double value, double tpoint) {
     if(value < tpoint) {
-        return false;
+        return true;
     }   
     else  {
-        return true;
+        return false;
     }
 }
 
@@ -39,7 +39,7 @@ void *displayOutput(void *arg)
             alarm_state = data->general_alarm;
             obstructed = data->obstructed_alarm;
         }
-        pthread_mutex_lock(&data->mutexAlarm);
+        pthread_mutex_unlock(&data->mutexAlarm);
 
         if(end_thread == false) {
         if(initialization == true) {

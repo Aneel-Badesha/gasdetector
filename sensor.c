@@ -47,7 +47,7 @@ void *readTemperature(void *arg)
 {
     struct thread_data *data = arg;
     bool end_thread = false;
-    bool initializaiton = true;
+    bool initialization = true;
     int index = 0;
 
     int raw_data;
@@ -114,12 +114,11 @@ void *readIR(void *arg)
     
     struct thread_data *data = arg;
     bool end_thread = false;
-    bool initializaiton = true;
+    bool initialization = true;
 
     int index = 0;
     int raw_data;
 
-    pthread_mutex_unlock(&data->mutexIR);
     pthread_mutex_lock(&data->mutexIR);
     {
         data->IR_value = 0;
@@ -136,7 +135,7 @@ void *readIR(void *arg)
         if(end_thread == false) {
             index = index % BUFFER_SIZE;
 
-            if(initializaiton == true) {
+            if(initialization == true) {
                 for(int i = 0; i < BUFFER_SIZE; i++) {
                     // First initialization
                     raw_data = getVoltage1Reading(A2D_FILE_VOLTAGE1);
@@ -150,7 +149,7 @@ void *readIR(void *arg)
                     sleepForMs(10);
                 }
                 
-                initializaiton = false;
+                initialization = false;
             } 
             else {
                 // Normal case
@@ -189,7 +188,6 @@ void *readAirSensors(void *arg)
             raw_data_CO2 = getVoltage1Reading(A2D_FILE_VOLTAGE2);
             raw_data_smoke = getVoltage1Reading(A2D_FILE_VOLTAGE3);
 
-            pthread_mutex_unlock(&data->mutexAir);
             pthread_mutex_lock(&data->mutexAir);
             {
                 data->CO_value = calVoltage(raw_data_CO);
