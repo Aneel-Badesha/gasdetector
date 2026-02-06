@@ -85,4 +85,4 @@ This project implements a comprehensive fire and gas detection system using mult
 - **Display**: 8x8 LED matrix
 - **Real-time Operation**: Continuous monitoring
 
-This embedded system provides a robust foundation for fire and gas detection applications with reliable hardware interfacing and cross-platform development capabilities.
+This embedded system is a robust device for fire and gas detection applications with reliable hardware interfacing and cross-platform development capabilities.
