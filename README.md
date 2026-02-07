@@ -77,7 +77,7 @@ This project implements a comprehensive fire and gas detection system using mult
 3. Configure GPIO permissions and I2C access
 4. Run the fire detection system
 
-## Technical Specifications
+## Technical Specifications 
 
 - **Target Architecture**: ARM (BeagleBone Green)
 - **Communication Protocols**: GPIO, I2C
