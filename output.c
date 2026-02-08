@@ -306,40 +306,39 @@ void *calcAlarm(void *arg)
                             printf("\n");
                             printf("WARNING: Temperature above threshold!\n");
                         }
-                        }
-                    else
-                    if(alarm_state == true) {
-                        if(CO_trigger == true) {
-                            printf("\n");
-                            printf("ALARM: CO LEVEL HIGHER THAN THRESHOLD, LEAVE AREA IMMEIDIATELY!");
-                            printf("\n");
-                        }
-                        else {
-                            printf("\n");
-                            printf("ALARM: TWO OR MORE SENSORS ABOVE THRESHOLD: ");
-                            if(CO2_trigger == true) {
-                                    printf("CO2 SENSOR, ");
-                                }
-                            if(smoke_trigger == true) {
-                                    printf("SMOKE/GAS SENSOR, ");
-                                }
-                            if(temp_trigger == true) {
-                                    printf("TEMPERATURE SENSOR, ");
-                                }        
-                            printf("\n");
-                        }
-
-                        // Turn all on
-                        system("i2cset -y 1 0x70 0x06 0xFF");
-                        system("i2cset -y 1 0x70 0x08 0xFF");
-                        system("i2cset -y 1 0x70 0x04 0xFF");
-                        system("i2cset -y 1 0x70 0x0A 0xFF");
-                        system("i2cset -y 1 0x70 0x02 0xFF");
-                        system("i2cset -y 1 0x70 0x0C 0xFF");
-                        system("i2cset -y 1 0x70 0x00 0xFF");
-                        system("i2cset -y 1 0x70 0x0E 0xFF");
-                        sleepForMs(250);
+                }
+                else if(alarm_state == true) {
+                    if(CO_trigger == true) {
+                        printf("\n");
+                        printf("ALARM: CO LEVEL HIGHER THAN THRESHOLD, LEAVE AREA IMMEIDIATELY!");
+                        printf("\n");
                     }
+                    else {
+                        printf("\n");
+                        printf("ALARM: TWO OR MORE SENSORS ABOVE THRESHOLD: ");
+                        if(CO2_trigger == true) {
+                                printf("CO2 SENSOR, ");
+                            }
+                        if(smoke_trigger == true) {
+                                printf("SMOKE/GAS SENSOR, ");
+                            }
+                        if(temp_trigger == true) {
+                                printf("TEMPERATURE SENSOR, ");
+                            }        
+                        printf("\n");
+                    }
+
+                    // Turn all on
+                    system("i2cset -y 1 0x70 0x06 0xFF");
+                    system("i2cset -y 1 0x70 0x08 0xFF");
+                    system("i2cset -y 1 0x70 0x04 0xFF");
+                    system("i2cset -y 1 0x70 0x0A 0xFF");
+                    system("i2cset -y 1 0x70 0x02 0xFF");
+                    system("i2cset -y 1 0x70 0x0C 0xFF");
+                    system("i2cset -y 1 0x70 0x00 0xFF");
+                    system("i2cset -y 1 0x70 0x0E 0xFF");
+                    sleepForMs(250);
+                }
     
                 sleepForMs(250);
             }
