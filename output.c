@@ -208,151 +208,151 @@ void *calcAlarm(void *arg)
         system("i2cset -y 1 0x70 0x0E 0x00");
 
         if(end_thread == false) {
-        if(initialization == true) {
-            initialization = false;
-            sleepForMs(1000);
-        }
-        else {
-            if(((alarm_state == true) || (warning_state == true))) {
-
-                if(alarm_count >= BUFFER_SIZE) {
-                    alarm_count = BUFFER_SIZE;
-                    alarm_count--;
-                }
-                else {
-                    alarm_count--;
-                }
-
-                if(alarm_count == 0) {
-                    warning_state = false;
-                    alarm_state = false;
-                }
+            if(initialization == true) {
+                initialization = false;
+                sleepForMs(1000);
             }
             else {
-                alarm_count = 0;
-            }
+                if(((alarm_state == true) || (warning_state == true))) {
 
-            pthread_mutex_lock(&data->mutexAlarm);
-            {
-                temp_trigger = data->alarm_temp;
-                ir_trigger = data->alarm_IR;
-                smoke_trigger = data->alarm_smoke;
-                CO2_trigger = data->alarm_CO2;
-                CO_trigger = data->alarm_CO;
-            }
-            pthread_mutex_unlock(&data->mutexAlarm);
-
-            if(CO_trigger == true) {
-                alarm_count++;
-                //printf("CO TRIGGER\n");
-                alarm_state = true;
-            }
-            if(temp_trigger == true) {
-                alarm_count++;
-                //printf("temp TRIGGER\n");
-            }
-            if(CO2_trigger == true) {
-                //printf("CO2 TRIGGER\n");
-                alarm_count++;
-            }
-            if(smoke_trigger == true) {
-                //printf("SMOKE TRIGGER\n");
-                alarm_count++;
-            }
-
-            // Obstructed case
-            if((alarm_count < 2) && (ir_trigger == true) && (alarm_state == false)) {
-                obstructed = true;
-            }
-            else {
-                obstructed = false;
-            }
-
-            // Fire case
-            if((alarm_count >= 2) && (obstructed == false)) {
-                alarm_state = true;
-            }
-            else
-            // Warning case
-            if((alarm_count == 1) && (alarm_state == false)) {
-                warning_state = true;
-            }
-            else {
-                warning_state = false;
-            }
-
-            pthread_mutex_lock(&data->mutexAlarm);
-            {
-                data->general_alarm = alarm_state;
-                data->obstructed_alarm = obstructed;
-            }
-            pthread_mutex_unlock(&data->mutexAlarm);
-
-            if((((warning_state == true) || (obstructed == true)) && (alarm_state == false))) {
-                // Creates ! mark
-                system("i2cset -y 1 0x70 0x06 0x0C");
-                system("i2cset -y 1 0x70 0x08 0x0C");
-                system("i2cset -y 1 0x70 0x04 0x0C");
-                system("i2cset -y 1 0x70 0x0A 0x0C");
-                system("i2cset -y 1 0x70 0x02 0x0C");
-                system("i2cset -y 1 0x70 0x0C 0x00");
-                system("i2cset -y 1 0x70 0x00 0x00");
-                system("i2cset -y 1 0x70 0x0E 0x0C");
-                sleepForMs(250);
-            }
-
-            if((warning_state == true) && (alarm_state == false) && (obstructed == false)) {
-                    if(CO2_trigger == true) {
-                        printf("\n");
-                        printf("WARNING: CO2 levels above threshold!\n");
-                    }
-                    else
-                    if(smoke_trigger == true) {
-                        printf("\n");
-                        printf("WARNING: Smoke / Fammable Gas levels above threshold!\n");
-                    }
-                    else
-                    if(temp_trigger == true) {
-                        printf("\n");
-                        printf("WARNING: Temperature above threshold!\n");
-                    }
-                    }
-                else
-                if(alarm_state == true) {
-                    if(CO_trigger == true) {
-                        printf("\n");
-                        printf("ALARM: CO LEVEL HIGHER THAN THRESHOLD, LEAVE AREA IMMEIDIATELY!");
-                        printf("\n");
+                    if(alarm_count >= BUFFER_SIZE) {
+                        alarm_count = BUFFER_SIZE;
+                        alarm_count--;
                     }
                     else {
-                        printf("\n");
-                        printf("ALARM: TWO OR MORE SENSORS ABOVE THRESHOLD: ");
-                        if(CO2_trigger == true) {
-                                printf("CO2 SENSOR, ");
-                            }
-                        if(smoke_trigger == true) {
-                                printf("SMOKE/GAS SENSOR, ");
-                            }
-                        if(temp_trigger == true) {
-                                printf("TEMPERATURE SENSOR, ");
-                            }        
-                        printf("\n");
+                        alarm_count--;
                     }
 
-                    // Turn all on
-                    system("i2cset -y 1 0x70 0x06 0xFF");
-                    system("i2cset -y 1 0x70 0x08 0xFF");
-                    system("i2cset -y 1 0x70 0x04 0xFF");
-                    system("i2cset -y 1 0x70 0x0A 0xFF");
-                    system("i2cset -y 1 0x70 0x02 0xFF");
-                    system("i2cset -y 1 0x70 0x0C 0xFF");
-                    system("i2cset -y 1 0x70 0x00 0xFF");
-                    system("i2cset -y 1 0x70 0x0E 0xFF");
+                    if(alarm_count == 0) {
+                        warning_state = false;
+                        alarm_state = false;
+                    }
+                }
+                else {
+                    alarm_count = 0;
+                }
+
+                pthread_mutex_lock(&data->mutexAlarm);
+                {
+                    temp_trigger = data->alarm_temp;
+                    ir_trigger = data->alarm_IR;
+                    smoke_trigger = data->alarm_smoke;
+                    CO2_trigger = data->alarm_CO2;
+                    CO_trigger = data->alarm_CO;
+                }
+                pthread_mutex_unlock(&data->mutexAlarm);
+
+                if(CO_trigger == true) {
+                    alarm_count++;
+                    //printf("CO TRIGGER\n");
+                    alarm_state = true;
+                }
+                if(temp_trigger == true) {
+                    alarm_count++;
+                    //printf("temp TRIGGER\n");
+                }
+                if(CO2_trigger == true) {
+                    //printf("CO2 TRIGGER\n");
+                    alarm_count++;
+                }
+                if(smoke_trigger == true) {
+                    //printf("SMOKE TRIGGER\n");
+                    alarm_count++;
+                }
+
+                // Obstructed case
+                if((alarm_count < 2) && (ir_trigger == true) && (alarm_state == false)) {
+                    obstructed = true;
+                }
+                else {
+                    obstructed = false;
+                }
+
+                // Fire case
+                if((alarm_count >= 2) && (obstructed == false)) {
+                    alarm_state = true;
+                }
+                else
+                // Warning case
+                if((alarm_count == 1) && (alarm_state == false)) {
+                    warning_state = true;
+                }
+                else {
+                    warning_state = false;
+                }
+
+                pthread_mutex_lock(&data->mutexAlarm);
+                {
+                    data->general_alarm = alarm_state;
+                    data->obstructed_alarm = obstructed;
+                }
+                pthread_mutex_unlock(&data->mutexAlarm);
+
+                if((((warning_state == true) || (obstructed == true)) && (alarm_state == false))) {
+                    // Creates ! mark
+                    system("i2cset -y 1 0x70 0x06 0x0C");
+                    system("i2cset -y 1 0x70 0x08 0x0C");
+                    system("i2cset -y 1 0x70 0x04 0x0C");
+                    system("i2cset -y 1 0x70 0x0A 0x0C");
+                    system("i2cset -y 1 0x70 0x02 0x0C");
+                    system("i2cset -y 1 0x70 0x0C 0x00");
+                    system("i2cset -y 1 0x70 0x00 0x00");
+                    system("i2cset -y 1 0x70 0x0E 0x0C");
                     sleepForMs(250);
                 }
-  
-            sleepForMs(250);
-        }
+
+                if((warning_state == true) && (alarm_state == false) && (obstructed == false)) {
+                        if(CO2_trigger == true) {
+                            printf("\n");
+                            printf("WARNING: CO2 levels above threshold!\n");
+                        }
+                        else
+                        if(smoke_trigger == true) {
+                            printf("\n");
+                            printf("WARNING: Smoke / Fammable Gas levels above threshold!\n");
+                        }
+                        else
+                        if(temp_trigger == true) {
+                            printf("\n");
+                            printf("WARNING: Temperature above threshold!\n");
+                        }
+                        }
+                    else
+                    if(alarm_state == true) {
+                        if(CO_trigger == true) {
+                            printf("\n");
+                            printf("ALARM: CO LEVEL HIGHER THAN THRESHOLD, LEAVE AREA IMMEIDIATELY!");
+                            printf("\n");
+                        }
+                        else {
+                            printf("\n");
+                            printf("ALARM: TWO OR MORE SENSORS ABOVE THRESHOLD: ");
+                            if(CO2_trigger == true) {
+                                    printf("CO2 SENSOR, ");
+                                }
+                            if(smoke_trigger == true) {
+                                    printf("SMOKE/GAS SENSOR, ");
+                                }
+                            if(temp_trigger == true) {
+                                    printf("TEMPERATURE SENSOR, ");
+                                }        
+                            printf("\n");
+                        }
+
+                        // Turn all on
+                        system("i2cset -y 1 0x70 0x06 0xFF");
+                        system("i2cset -y 1 0x70 0x08 0xFF");
+                        system("i2cset -y 1 0x70 0x04 0xFF");
+                        system("i2cset -y 1 0x70 0x0A 0xFF");
+                        system("i2cset -y 1 0x70 0x02 0xFF");
+                        system("i2cset -y 1 0x70 0x0C 0xFF");
+                        system("i2cset -y 1 0x70 0x00 0xFF");
+                        system("i2cset -y 1 0x70 0x0E 0xFF");
+                        sleepForMs(250);
+                    }
+    
+                sleepForMs(250);
+            }
         }
         else {
             return NULL;
