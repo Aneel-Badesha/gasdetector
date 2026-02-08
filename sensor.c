@@ -70,7 +70,7 @@ void *readTemperature(void *arg)
         if(end_thread == false) {
             index = index % BUFFER_SIZE;
 
-            if(initializaiton == true) {
+            if(initialization == true) {
                 for(int i = 0; i < BUFFER_SIZE; i++) {
                     // First initialization
                     raw_data = getVoltage1Reading(A2D_FILE_VOLTAGE0);
@@ -79,7 +79,7 @@ void *readTemperature(void *arg)
                     sleepForMs(10);
                 }
                 
-                initializaiton = false;
+                initialization = false;
             } 
             else {
                 // Normal case
