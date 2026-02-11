@@ -12,8 +12,11 @@ This project implements a comprehensive fire and gas detection system using mult
 - **BeagleBone Green**: Main processing unit and GPIO controller
 
 ### Sensors (5 total)
-- Fire detection sensors
-- Gas detection sensors
+- IR Sensor
+- CO Sensor
+- CO2 Sensor
+- Temp Sensor
+- Smoke Sensor
 - Connected via GPIO ports for digital/analog input
 
 ### Display & Alerting
