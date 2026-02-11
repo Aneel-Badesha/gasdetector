@@ -58,6 +58,7 @@ int main(void)
     }
     
     while(1) {
+        
         // Check for USER button
         pthread_mutex_lock(&thread_data.mutexControl);
         {
