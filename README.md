@@ -13,7 +13,7 @@ This project implements a comprehensive fire and gas detection system using mult
 
 ### Sensors (5 total)
 - IR Sensor
-- CO Sensor 
+- CO Sensor
 - CO2 Sensor
 - Smoke Sensor
 - Temperature Sensor
