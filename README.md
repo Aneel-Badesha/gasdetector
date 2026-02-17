@@ -7,7 +7,7 @@ An embedded fire and gas detection system built with C programming language on D
 This project implements a comprehensive fire and gas detection system using multiple sensors for redundant safety monitoring. The system features visual alarm capabilities and is designed for reliable operation in safety-critical environments.
 
 ## Hardware Components
-  
+ 
 ### Target Platform
 - **BeagleBone Green**: Main processing unit and GPIO controller
 
