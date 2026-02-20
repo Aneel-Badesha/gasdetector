@@ -9,7 +9,7 @@ This project implements a comprehensive fire and gas detection system using mult
 ## Hardware Components
  
 ### Target Platform
-- **BeagleBone Green**: Main processing unit and GPIO controller
+- **BeagleBone Green**: Main processing unit and GPIO controller 
  
 ### Sensors (5 total)
 - IR Sensor
