@@ -19,7 +19,7 @@ This project implements a comprehensive fire and gas detection system using mult
 - Temperature Sensor
 - Connected via GPIO ports for digital/analog input
 
-### Display & Alerting
+### Display & Alerting 
 - **8x8 LED Matrix**: Visual alarm display connected via I2C interface
 - Provides clear visual indication of alarm states
 
