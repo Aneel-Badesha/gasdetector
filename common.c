@@ -6,13 +6,17 @@ pthread_mutex_t g_mutex_sensor[SENSOR_MAX];
 pthread_mutex_t g_mutex_alarm;
 pthread_mutex_t g_mutex_watchdog;
 pthread_t       g_tid[THREAD_IDX_MAX];
+pthread_mutex_t g_mutex_sensor_updated;
+pthread_cond_t  g_cond_sensor_updated;
 
 // Initialises all global mutexes
 void globalsInit(void)
 {
-    pthread_mutex_init(&g_mutex_control,  NULL);
-    pthread_mutex_init(&g_mutex_alarm,    NULL);
-    pthread_mutex_init(&g_mutex_watchdog, NULL);
+    pthread_mutex_init(&g_mutex_control,        NULL);
+    pthread_mutex_init(&g_mutex_alarm,          NULL);
+    pthread_mutex_init(&g_mutex_watchdog,       NULL);
+    pthread_mutex_init(&g_mutex_sensor_updated, NULL);
+    pthread_cond_init(&g_cond_sensor_updated,   NULL);
     for (int i = 0; i < SENSOR_MAX; i++) {
         pthread_mutex_init(&g_mutex_sensor[i], NULL);
     }
@@ -24,6 +28,8 @@ void globalsDestroy(void)
     pthread_mutex_destroy(&g_mutex_control);
     pthread_mutex_destroy(&g_mutex_alarm);
     pthread_mutex_destroy(&g_mutex_watchdog);
+    pthread_mutex_destroy(&g_mutex_sensor_updated);
+    pthread_cond_destroy(&g_cond_sensor_updated);
     for (int i = 0; i < SENSOR_MAX; i++) {
         pthread_mutex_destroy(&g_mutex_sensor[i]);
     }

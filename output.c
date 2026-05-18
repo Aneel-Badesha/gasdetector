@@ -279,6 +279,16 @@ void *calcAlarm(void *arg)
             }
         }
 
-        sleepForMs(250);
+        // Block until a sensor writes a new value, or 250ms elapses (keeps watchdog alive)
+        struct timespec deadline;
+        clock_gettime(CLOCK_REALTIME, &deadline);
+        deadline.tv_nsec += 250 * 1000000L;
+        if (deadline.tv_nsec >= 1000000000L) {
+            deadline.tv_sec++;
+            deadline.tv_nsec -= 1000000000L;
+        }
+        pthread_mutex_lock(&g_mutex_sensor_updated);
+        pthread_cond_timedwait(&g_cond_sensor_updated, &g_mutex_sensor_updated, &deadline);
+        pthread_mutex_unlock(&g_mutex_sensor_updated);
     }
 }

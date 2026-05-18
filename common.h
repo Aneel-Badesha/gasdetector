@@ -68,6 +68,8 @@ extern pthread_mutex_t g_mutex_sensor[SENSOR_MAX];  // protects value[], one per
 extern pthread_mutex_t g_mutex_alarm;               // protects general_alarm, obstructed_alarm
 extern pthread_mutex_t g_mutex_watchdog;            // protects watchdog_kicks
 extern pthread_t       g_tid[THREAD_IDX_MAX];       // thread IDs indexed by thread_idx_t, used to join on shutdown
+extern pthread_mutex_t g_mutex_sensor_updated;      // paired with g_cond_sensor_updated
+extern pthread_cond_t  g_cond_sensor_updated;       // signalled by sensor threads when a new EMA value is written
 
 // Shared runtime state passed to every thread
 struct thread_data {

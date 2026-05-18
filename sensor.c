@@ -72,6 +72,10 @@ static void runSensorLoop(struct thread_data *data, const sensor_cfg_t *cfg)
             }
             pthread_mutex_unlock(&g_mutex_sensor[cfg->sensor_idx]);
 
+            pthread_mutex_lock(&g_mutex_sensor_updated);
+            pthread_cond_broadcast(&g_cond_sensor_updated);
+            pthread_mutex_unlock(&g_mutex_sensor_updated);
+
             watchdogKick(data, cfg->watchdog_idx);
         }
 
